@@ -1,0 +1,70 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.trees.J48 -C 0.25 -M 2
+Relation:     train
+Instances:    891
+Attributes:   8
+              pclass
+              sex
+              age
+              sibsp
+              fare
+              cabin
+              embarked
+              survived
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+J48 pruned tree
+------------------
+
+sex = female
+|   pclass = 1: 1 (94.0/3.0)
+|   pclass = 2: 1 (76.0/6.0)
+|   pclass = 3
+|   |   embarked = C
+|   |   |   fare <= 15.2458
+|   |   |   |   fare <= 13.8625: 1 (6.0)
+|   |   |   |   fare > 13.8625: 0 (10.0/2.0)
+|   |   |   fare > 15.2458: 1 (7.0)
+|   |   embarked = Q
+|   |   |   age <= 30
+|   |   |   |   fare <= 7.65: 0 (2.0)
+|   |   |   |   fare > 7.65: 1 (28.0/4.0)
+|   |   |   age > 30: 0 (3.0)
+|   |   embarked = S: 0 (88.0/33.0)
+sex = male: 0 (577.0/109.0)
+
+Number of Leaves  : 	10
+
+Size of the tree : 	17
+
+
+Time taken to build model: 0.09 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         714               80.1347 %
+Incorrectly Classified Instances       177               19.8653 %
+Kappa statistic                          0.5537
+Mean absolute error                      0.2861
+Root mean squared error                  0.3857
+Relative absolute error                 60.4817 %
+Root relative squared error             79.3153 %
+Total Number of Instances              891     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.936    0.415    0.784      0.936    0.853      0.575    0.772     0.771     0
+                 0.585    0.064    0.851      0.585    0.693      0.575    0.772     0.761     1
+Weighted Avg.    0.801    0.280    0.809      0.801    0.792      0.575    0.772     0.767     
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 514  35 |   a = 0
+ 142 200 |   b = 1
+

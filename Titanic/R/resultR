@@ -1,0 +1,16 @@
+=== Summary ===
+
+Correctly Classified Instances          16               50      %
+Incorrectly Classified Instances        16               50      %
+Kappa statistic                          0
+Mean absolute error                      0.5
+Root mean squared error                  0.5
+Relative absolute error                100      %
+Root relative squared error            100      %
+Total Number of Instances               32
+
+=== Confusion Matrix ===
+
+  a  b   <-- classified as
+ 16  0 |  a = No
+ 16  0 |  b = Yes
