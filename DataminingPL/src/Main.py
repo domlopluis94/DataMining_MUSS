@@ -7,6 +7,23 @@ import pandas as pd
 from pprint import pprint
 
 
+class Player:
+    name: ''
+    position: ''
+    rate: ''
+    blocks: ''
+    passAccurate: ''
+    totalPass: ''
+    touches: ''
+    fouls: ''
+    tackles: ''
+    lost: ''
+    goals: ''
+    won_contest: ''
+    yellow_card:''
+    red_card:''
+    assistence:''
+
 
 def mainClass():
     # '../datafile/season14-15/season_match_stats.json'
@@ -14,16 +31,14 @@ def mainClass():
     vard = {}
     vart = json.dumps(vard)
 
-
     def main():
         ficheros = ["../datafile/season14-15/","../datafile/season15-16/","../datafile/season16-17/",
                     "../datafile/season17-18/"]
-        jsontocsv("validfinal.json")
-
-        #seasonid =0
-        #for dirname in ficheros:
-        #   seasonid = parseojson(dirname,seasonid)
-
+        # jsontocsv("validfinal.json")
+        seasonid =0
+        for dirname in ficheros:
+            seasonid = Playerdatset(dirname, seasonid)
+            #   seasonid = parseojson(dirname,seasonid)
 
     def parseojson(season,seasonid):
         global_idpartidos = seasonid
@@ -230,8 +245,288 @@ def mainClass():
         else:
             return "D"
 
+    def Playerdatset(season,seasonid):
+        global_idpartidos = seasonid
 
+        dirm = season + "season_match_stats.json"
+        dirs = season + "season_stats.json"
+        with open(dirm) as match:
+            datamat = json.load(match)
+        with open(dirs) as matchstat:
+            datastats = json.load(matchstat)
+        # la idea primera es añadir a matach cada extrastats
+        idt = ["", ""]
+        for id in datamat:
+            punt = 0
+            for idtema in datastats[id]:
+                idt[punt] = idtema
+                punt = punt + 1
+            # vamos a ajustar los datos de cada jugador para cada partido
 
+            homeTeam = teamPlayerArray(datastats, idt[0], id)
+            visitTeam = teamPlayerArray(datastats, idt[0], id)
+            final = result(datamat[id]['full_time_score'])
+            matcjob = {
+                global_idpartidos: {
+                    "season": season[-6:-1],
+                    "home_team_name": datamat[id]['home_team_name'],
+                    "away_team_name": datamat[id]['away_team_name'],
+                    "half_time_score": datamat[id]['half_time_score'],
+                    "full_time_score": datamat[id]['full_time_score'],
+                    "full_time_result": final,
+                    "home_" + homeTeam[0].position + "_name": homeTeam[0].name,
+                    "home_" + homeTeam[0].position + "_assistence": homeTeam[0].assistence,
+                    "home_" + homeTeam[0].position + "_won_contest": homeTeam[0].won_contest,
+                    "home_" + homeTeam[0].position + "_tackles": homeTeam[0].tackles,
+                    "home_" + homeTeam[0].position + "_goals": homeTeam[0].goals,
+                    "home_" + homeTeam[0].position + "_red_card": homeTeam[0].red_card,
+                    "home_" + homeTeam[0].position + "_yellow_card": homeTeam[0].yellow_card,
+                    "home_" + homeTeam[0].position + "_touches": homeTeam[0].touches,
+                    "home_" + homeTeam[0].position + "_lost": homeTeam[0].lost,
+                    "home_" + homeTeam[0].position + "_rate": homeTeam[0].rate,
+                    "home_" + homeTeam[0].position + "_fouls": homeTeam[0].fouls,
+                    "home_" + homeTeam[0].position + "_blocks": homeTeam[0].blocks,
+                    "home_" + homeTeam[1].position + "_name": homeTeam[1].name,
+                    "home_" + homeTeam[1].position + "_assistence": homeTeam[1].assistence,
+                    "home_" + homeTeam[1].position + "_won_contest": homeTeam[1].won_contest,
+                    "home_" + homeTeam[1].position + "_tackles": homeTeam[1].tackles,
+                    "home_" + homeTeam[1].position + "_goals": homeTeam[1].goals,
+                    "home_" + homeTeam[1].position + "_red_card": homeTeam[1].red_card,
+                    "home_" + homeTeam[1].position + "_yellow_card": homeTeam[1].yellow_card,
+                    "home_" + homeTeam[1].position + "_touches": homeTeam[1].touches,
+                    "home_" + homeTeam[1].position + "_lost": homeTeam[1].lost,
+                    "home_" + homeTeam[1].position + "_rate": homeTeam[1].rate,
+                    "home_" + homeTeam[1].position + "_fouls": homeTeam[1].fouls,
+                    "home_" + homeTeam[1].position + "_blocks": homeTeam[1].blocks,
+                    "home_" + homeTeam[2].position + "_name": homeTeam[2].name,
+                    "home_" + homeTeam[2].position + "_assistence": homeTeam[2].assistence,
+                    "home_" + homeTeam[2].position + "_won_contest": homeTeam[2].won_contest,
+                    "home_" + homeTeam[2].position + "_tackles": homeTeam[2].tackles,
+                    "home_" + homeTeam[2].position + "_goals": homeTeam[2].goals,
+                    "home_" + homeTeam[2].position + "_red_card": homeTeam[2].red_card,
+                    "home_" + homeTeam[2].position + "_yellow_card": homeTeam[2].yellow_card,
+                    "home_" + homeTeam[2].position + "_touches": homeTeam[2].touches,
+                    "home_" + homeTeam[2].position + "_lost": homeTeam[2].lost,
+                    "home_" + homeTeam[2].position + "_rate": homeTeam[2].rate,
+                    "home_" + homeTeam[2].position + "_fouls": homeTeam[2].fouls,
+                    "home_" + homeTeam[2].position + "_blocks": homeTeam[2].blocks,
+                    "home_" + homeTeam[3].position + "_name": homeTeam[3].name,
+                    "home_" + homeTeam[3].position + "_assistence": homeTeam[3].assistence,
+                    "home_" + homeTeam[3].position + "_won_contest": homeTeam[3].won_contest,
+                    "home_" + homeTeam[3].position + "_tackles": homeTeam[3].tackles,
+                    "home_" + homeTeam[3].position + "_goals": homeTeam[3].goals,
+                    "home_" + homeTeam[3].position + "_red_card": homeTeam[3].red_card,
+                    "home_" + homeTeam[3].position + "_yellow_card": homeTeam[3].yellow_card,
+                    "home_" + homeTeam[3].position + "_touches": homeTeam[3].touches,
+                    "home_" + homeTeam[3].position + "_lost": homeTeam[3].lost,
+                    "home_" + homeTeam[3].position + "_rate": homeTeam[3].rate,
+                    "home_" + homeTeam[3].position + "_fouls": homeTeam[3].fouls,
+                    "home_" + homeTeam[3].position + "_blocks": homeTeam[3].blocks,
+                    "home_" + homeTeam[4].position + "_name": homeTeam[4].name,
+                    "home_" + homeTeam[4].position + "_assistence": homeTeam[4].assistence,
+                    "home_" + homeTeam[4].position + "_won_contest": homeTeam[4].won_contest,
+                    "home_" + homeTeam[4].position + "_tackles": homeTeam[4].tackles,
+                    "home_" + homeTeam[4].position + "_goals": homeTeam[4].goals,
+                    "home_" + homeTeam[4].position + "_red_card": homeTeam[4].red_card,
+                    "home_" + homeTeam[4].position + "_yellow_card": homeTeam[4].yellow_card,
+                    "home_" + homeTeam[4].position + "_touches": homeTeam[4].touches,
+                    "home_" + homeTeam[4].position + "_lost": homeTeam[4].lost,
+                    "home_" + homeTeam[4].position + "_rate": homeTeam[4].rate,
+                    "home_" + homeTeam[4].position + "_fouls": homeTeam[4].fouls,
+                    "home_" + homeTeam[4].position + "_blocks": homeTeam[4].blocks,
+                    "home_" + homeTeam[5].position + "_name": homeTeam[5].name,
+                    "home_" + homeTeam[5].position + "_assistence": homeTeam[5].assistence,
+                    "home_" + homeTeam[5].position + "_won_contest": homeTeam[5].won_contest,
+                    "home_" + homeTeam[5].position + "_tackles": homeTeam[5].tackles,
+                    "home_" + homeTeam[5].position + "_goals": homeTeam[5].goals,
+                    "home_" + homeTeam[5].position + "_red_card": homeTeam[5].red_card,
+                    "home_" + homeTeam[5].position + "_yellow_card": homeTeam[5].yellow_card,
+                    "home_" + homeTeam[5].position + "_touches": homeTeam[5].touches,
+                    "home_" + homeTeam[5].position + "_lost": homeTeam[5].lost,
+                    "home_" + homeTeam[5].position + "_rate": homeTeam[5].rate,
+                    "home_" + homeTeam[5].position + "_fouls": homeTeam[5].fouls,
+                    "home_" + homeTeam[5].position + "_blocks": homeTeam[5].blocks,
+                    "home_" + homeTeam[6].position + "_name": homeTeam[6].name,
+                    "home_" + homeTeam[6].position + "_assistence": homeTeam[6].assistence,
+                    "home_" + homeTeam[6].position + "_won_contest": homeTeam[6].won_contest,
+                    "home_" + homeTeam[6].position + "_tackles": homeTeam[6].tackles,
+                    "home_" + homeTeam[6].position + "_goals": homeTeam[6].goals,
+                    "home_" + homeTeam[6].position + "_red_card": homeTeam[6].red_card,
+                    "home_" + homeTeam[6].position + "_yellow_card": homeTeam[6].yellow_card,
+                    "home_" + homeTeam[6].position + "_touches": homeTeam[6].touches,
+                    "home_" + homeTeam[6].position + "_lost": homeTeam[6].lost,
+                    "home_" + homeTeam[6].position + "_rate": homeTeam[6].rate,
+                    "home_" + homeTeam[6].position + "_fouls": homeTeam[6].fouls,
+                    "home_" + homeTeam[6].position + "_blocks": homeTeam[6].blocks,
+                    "home_" + homeTeam[7].position + "_name": homeTeam[7].name,
+                    "home_" + homeTeam[7].position + "_assistence": homeTeam[7].assistence,
+                    "home_" + homeTeam[7].position + "_won_contest": homeTeam[7].won_contest,
+                    "home_" + homeTeam[7].position + "_tackles": homeTeam[7].tackles,
+                    "home_" + homeTeam[7].position + "_goals": homeTeam[7].goals,
+                    "home_" + homeTeam[7].position + "_red_card": homeTeam[7].red_card,
+                    "home_" + homeTeam[7].position + "_yellow_card": homeTeam[7].yellow_card,
+                    "home_" + homeTeam[7].position + "_touches": homeTeam[7].touches,
+                    "home_" + homeTeam[7].position + "_lost": homeTeam[7].lost,
+                    "home_" + homeTeam[7].position + "_rate": homeTeam[7].rate,
+                    "home_" + homeTeam[7].position + "_fouls": homeTeam[7].fouls,
+                    "home_" + homeTeam[7].position + "_blocks": homeTeam[7].blocks,
+                    "home_" + homeTeam[8].position + "_name": homeTeam[8].name,
+                    "home_" + homeTeam[8].position + "_assistence": homeTeam[8].assistence,
+                    "home_" + homeTeam[8].position + "_won_contest": homeTeam[8].won_contest,
+                    "home_" + homeTeam[8].position + "_tackles": homeTeam[8].tackles,
+                    "home_" + homeTeam[8].position + "_goals": homeTeam[8].goals,
+                    "home_" + homeTeam[8].position + "_red_card": homeTeam[8].red_card,
+                    "home_" + homeTeam[8].position + "_yellow_card": homeTeam[8].yellow_card,
+                    "home_" + homeTeam[8].position + "_touches": homeTeam[8].touches,
+                    "home_" + homeTeam[8].position + "_lost": homeTeam[8].lost,
+                    "home_" + homeTeam[8].position + "_rate": homeTeam[8].rate,
+                    "home_" + homeTeam[8].position + "_fouls": homeTeam[8].fouls,
+                    "home_" + homeTeam[8].position + "_blocks": homeTeam[8].blocks,
+                    "home_" + homeTeam[9].position + "_name": homeTeam[9].name,
+                    "home_" + homeTeam[9].position + "_assistence": homeTeam[9].assistence,
+                    "home_" + homeTeam[9].position + "_won_contest": homeTeam[9].won_contest,
+                    "home_" + homeTeam[9].position + "_tackles": homeTeam[9].tackles,
+                    "home_" + homeTeam[9].position + "_goals": homeTeam[9].goals,
+                    "home_" + homeTeam[9].position + "_red_card": homeTeam[9].red_card,
+                    "home_" + homeTeam[9].position + "_yellow_card": homeTeam[9].yellow_card,
+                    "home_" + homeTeam[9].position + "_touches": homeTeam[9].touches,
+                    "home_" + homeTeam[9].position + "_lost": homeTeam[9].lost,
+                    "home_" + homeTeam[9].position + "_rate": homeTeam[9].rate,
+                    "home_" + homeTeam[9].position + "_fouls": homeTeam[9].fouls,
+                    "home_" + homeTeam[9].position + "_blocks": homeTeam[9].blocks,
+                    "home_" + homeTeam[10].position + "_name": homeTeam[10].name,
+                    "home_" + homeTeam[10].position + "_assistence": homeTeam[10].assistence,
+                    "home_" + homeTeam[10].position + "_won_contest": homeTeam[10].won_contest,
+                    "home_" + homeTeam[10].position + "_tackles": homeTeam[10].tackles,
+                    "home_" + homeTeam[10].position + "_goals": homeTeam[10].goals,
+                    "home_" + homeTeam[10].position + "_red_card": homeTeam[10].red_card,
+                    "home_" + homeTeam[10].position + "_yellow_card": homeTeam[10].yellow_card,
+                    "home_" + homeTeam[10].position + "_touches": homeTeam[10].touches,
+                    "home_" + homeTeam[10].position + "_lost": homeTeam[10].lost,
+                    "home_" + homeTeam[10].position + "_rate": homeTeam[10].rate,
+                    "home_" + homeTeam[10].position + "_fouls": homeTeam[10].fouls,
+                    "home_" + homeTeam[10].position + "_blocks": homeTeam[10].blocks,
+                    "home_" + homeTeam[11].position + "_name": homeTeam[11].name,
+                    "home_" + homeTeam[11].position + "_assistence": homeTeam[11].assistence,
+                    "home_" + homeTeam[11].position + "_won_contest": homeTeam[11].won_contest,
+                    "home_" + homeTeam[11].position + "_tackles": homeTeam[11].tackles,
+                    "home_" + homeTeam[11].position + "_goals": homeTeam[11].goals,
+                    "home_" + homeTeam[11].position + "_red_card": homeTeam[11].red_card,
+                    "home_" + homeTeam[11].position + "_yellow_card": homeTeam[11].yellow_card,
+                    "home_" + homeTeam[11].position + "_touches": homeTeam[11].touches,
+                    "home_" + homeTeam[11].position + "_lost": homeTeam[11].lost,
+                    "home_" + homeTeam[11].position + "_rate": homeTeam[11].rate,
+                    "home_" + homeTeam[11].position + "_fouls": homeTeam[11].fouls,
+                    "home_" + homeTeam[11].position + "_blocks": homeTeam[11].blocks,
+                    "home_" + homeTeam[12].position + "_name": homeTeam[12].name,
+                    "home_" + homeTeam[12].position + "_assistence": homeTeam[12].assistence,
+                    "home_" + homeTeam[12].position + "_won_contest": homeTeam[12].won_contest,
+                    "home_" + homeTeam[12].position + "_tackles": homeTeam[12].tackles,
+                    "home_" + homeTeam[12].position + "_goals": homeTeam[12].goals,
+                    "home_" + homeTeam[12].position + "_red_card": homeTeam[12].red_card,
+                    "home_" + homeTeam[12].position + "_yellow_card": homeTeam[12].yellow_card,
+                    "home_" + homeTeam[12].position + "_touches": homeTeam[12].touches,
+                    "home_" + homeTeam[12].position + "_lost": homeTeam[12].lost,
+                    "home_" + homeTeam[12].position + "_rate": homeTeam[12].rate,
+                    "home_" + homeTeam[12].position + "_fouls": homeTeam[12].fouls,
+                    "home_" + homeTeam[12].position + "_blocks": homeTeam[12].blocks,
+                    "home_" + homeTeam[13].position + "_name": homeTeam[13].name,
+                    "home_" + homeTeam[13].position + "_assistence": homeTeam[13].assistence,
+                    "home_" + homeTeam[13].position + "_won_contest": homeTeam[13].won_contest,
+                    "home_" + homeTeam[13].position + "_tackles": homeTeam[13].tackles,
+                    "home_" + homeTeam[13].position + "_goals": homeTeam[13].goals,
+                    "home_" + homeTeam[13].position + "_red_card": homeTeam[13].red_card,
+                    "home_" + homeTeam[13].position + "_yellow_card": homeTeam[13].yellow_card,
+                    "home_" + homeTeam[13].position + "_touches": homeTeam[13].touches,
+                    "home_" + homeTeam[13].position + "_lost": homeTeam[13].lost,
+                    "home_" + homeTeam[13].position + "_rate": homeTeam[13].rate,
+                    "home_" + homeTeam[13].position + "_fouls": homeTeam[13].fouls,
+                    "home_" + homeTeam[13].position + "_blocks": homeTeam[13].blocks
+                }
+            }
+            global_idpartidos = global_idpartidos + 1
+            print(json.dumps(matcjob))
+
+            with open('final.json') as f:
+                data = json.load(f)
+
+            data.update(matcjob)
+
+            with open('final.json', 'w') as f:
+                json.dump(data, f)
+        return global_idpartidos
+
+    def teamPlayerArray(datastats,idt,id):
+        teamArray = ["","","","","","","","","","","","","",""]
+        pointer =0
+        # datastats[id][idt]['Player_stats']['Wojciech Szczesny'][player_details] or [Match_stats]
+        for idtema in datastats[id][idt]['Player_stats']:
+            jugador = Player()
+            # para cada jugador
+
+            try:
+                jugador.name = datastats[id][idt]['Player_stats'][idtema]['player_details']['player_name']
+            except:
+                jugador.name = ""
+            try:
+                jugador.position = datastats[id][idt]['Player_stats'][idtema]['player_details']['player_position_info']
+            except:
+                jugador.position = ""
+            try:
+                jugador.rate = datastats[id][idt]['Player_stats'][idtema]['player_details']['player_rating']
+            except:
+                jugador.rate = ""
+            try:
+                jugador.blocks = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['saves']
+            except:
+                jugador.blocks = ""
+            try:
+                jugador.fouls = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['fouls']
+            except:
+                jugador.fouls = ""
+            try:
+                jugador.lost = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['aerial_lost']
+            except:
+                jugador.lost = ""
+            try:
+                jugador.passAccurate = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['accurate_pass']
+            except:
+                jugador.passAccurate = ""
+            try:
+                jugador.goals = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['goals']
+            except:
+                jugador.goals = ""
+            try:
+                jugador.tackles = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['total_tackle']
+            except:
+                jugador.tackles = ""
+            try:
+                jugador.touches = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['touches']
+            except:
+                jugador.touches = ""
+            try:
+                jugador.won_contest = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['won_contest']
+            except:
+                jugador.won_contest = ""
+            try:
+                jugador.yellow_card = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['yellow_card']
+            except:
+                jugador.yellow_card = ""
+            try:
+                jugador.red_card = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['red_card']
+            except:
+                jugador.red_card = ""
+            try:
+                jugador.assistence = datastats[id][idt]['Player_stats'][idtema]['Match_stats']['goal_assist']
+            except:
+                jugador.assistence = ""
+            print(jugador.position)
+            if (pointer<14):
+                teamArray[pointer] = jugador
+                pointer = pointer + 1
+            else:
+                break
+        return teamArray
 
     def jsontocsv(directionjson):
         infile = open(directionjson, 'r')
